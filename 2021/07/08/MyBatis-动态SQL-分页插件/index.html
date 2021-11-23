@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="IcYxYEPZUznu0Lpq">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source Code Pro:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.small-j.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","Muse | Mist":320,"Pisces | Gemini":240,"width":220,"display":"post","padding":100,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":false,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="当我们的业务逻辑复杂时，我们的SQL是动态变化的，此时我们就需要使用到动态的SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis-动态SQL&amp;分页插件">
+<meta property="og:url" content="https://www.small-j.cn/2021/07/08/MyBatis-%E5%8A%A8%E6%80%81SQL-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Small-J的个人博客">
+<meta property="og:description" content="当我们的业务逻辑复杂时，我们的SQL是动态变化的，此时我们就需要使用到动态的SQL">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.small-j.cn/2021/07/08/MyBatis-%E5%8A%A8%E6%80%81SQL-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/1590936579118.png">
+<meta property="og:image" content="https://www.small-j.cn/2021/07/08/MyBatis-%E5%8A%A8%E6%80%81SQL-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/1590936654661.png">
+<meta property="article:published_time" content="2021-07-08T10:53:08.000Z">
+<meta property="article:modified_time" content="2021-07-08T11:47:29.000Z">
+<meta property="article:author" content="Small-J">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="MyBatis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.small-j.cn/2021/07/08/MyBatis-%E5%8A%A8%E6%80%81SQL-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/1590936579118.png">
+
+<link rel="canonical" href="https://www.small-j.cn/2021/07/08/MyBatis-%E5%8A%A8%E6%80%81SQL-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MyBatis-动态SQL&分页插件 | Small-J的个人博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Small-J的个人博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Small-J的个人博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">遗憾都是会有的吧</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">16</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">28</span></a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/zdj-j" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener external nofollow noreferrer" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.small-j.cn/2021/07/08/MyBatis-%E5%8A%A8%E6%80%81SQL-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Small-J">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Small-J的个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MyBatis-动态SQL&分页插件
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-08 10:53:08 / 修改时间：11:47:29" itemprop="dateCreated datePublished" datetime="2021-07-08T10:53:08Z">2021-07-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/MyBatis/" itemprop="url" rel="index"><span itemprop="name">MyBatis</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>当我们的业务逻辑复杂时，我们的SQL是动态变化的，此时我们就需要使用到动态的SQL</p>
+</blockquote>
+<span id="more"></span>
+
+<hr style="height:3px;border:none;border-top:3px double green;">
+
+<div class="note success no-icon">
+            <p><strong>MyBatis相关文章</strong></p><ul><li><p><a href="https://www.small-j.cn/2021/07/04/MyBatis-%E4%BB%8B%E7%BB%8D-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE-%E6%8E%A5%E5%8F%A3%E4%BB%A3%E7%90%86/">MyBatis-介绍&amp;核心配置&amp;接口代理</a></p></li><li><p><a href="https://www.small-j.cn/2021/07/08/MyBatis-%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/">MyBatis-多表操作</a></p></li><li><p><a href="https://www.small-j.cn/2021/07/09/MyBatis-%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/">MyBatis-注解开发</a></p></li><li><p><a href="https://www.small-j.cn/2021/07/09/MyBatis-%E6%9E%84%E5%BB%BASQL%E8%AF%AD%E5%8F%A5/">MyBatis-构建SQL语句</a></p></li></ul>
+          </div>
+
+
+
+
+
+<h2 id="动态sql语句"><a href="#动态sql语句" class="headerlink" title="动态sql语句"></a>动态sql语句</h2><p><strong>概述</strong></p>
+<p>MyBaits的映射文件中，SQL语句都是比较简单的，有些时候业务逻辑复杂时，我们的SQL是动态变化的，此时我们就需要使用到动态的SQL语句</p>
+<p><strong>动态sql之if标签</strong></p>
+<p>我们根据实体类的不同取值，使用不同的 SQL语句来进行查询。比如在 id如果不为空时可以根据id查询，如果username 不同空时还要加入用户名作为条件。这种情况在我们的多条件组合查询中经常会碰到。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;findByCondition&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;student&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;student&quot;</span>&gt;</span></span><br><span class="line">    select * from student</span><br><span class="line">    <span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">&quot;id!=0&quot;</span>&gt;</span></span><br><span class="line">            and id=#&#123;id&#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">&quot;username!=null&quot;</span>&gt;</span></span><br><span class="line">            and username=#&#123;username&#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">where</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>当查询条件id和username都存在时，控制台打印的sql语句如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> … … …</span><br><span class="line"> <span class="comment">//获得MyBatis框架生成的StudentMapper接口的实现类</span></span><br><span class="line">StudentMapper mapper = sqlSession.getMapper( StudentMapper.class);</span><br><span class="line">Student condition = <span class="keyword">new</span> Student();</span><br><span class="line">condition.setId(<span class="number">1</span>);</span><br><span class="line">condition.setUsername(<span class="string">&quot;lucy&quot;</span>);</span><br><span class="line">Student student = mapper.findByCondition(condition);</span><br><span class="line">… … …</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/07/08/MyBatis-%E5%8A%A8%E6%80%81SQL-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/1590936579118.png" alt="1590936579118"></p>
+<p>当查询条件只有id存在时，控制台打印的sql语句如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> … … …</span><br><span class="line"> <span class="comment">//获得MyBatis框架生成的UserMapper接口的实现类</span></span><br><span class="line"> StudentMapper mapper = sqlSession.getMapper( StudentMapper.class);</span><br><span class="line">    Student condition = <span class="keyword">new</span> Student();</span><br><span class="line">    condition.setId(<span class="number">1</span>);</span><br><span class="line">    Student student = mapper.findByCondition(condition);</span><br><span class="line">… … …</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/07/08/MyBatis-%E5%8A%A8%E6%80%81SQL-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/1590936654661.png" alt="1590936654661"></p>
+<p>总结语法</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">where</span>&gt;</span>：条件标签。如果有动态条件，则使用该标签代替 where 关键字。</span><br><span class="line"><span class="tag">&lt;<span class="name">if</span>&gt;</span>：条件判断标签。</span><br><span class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">“条件判断”</span>&gt;</span></span><br><span class="line">	查询条件拼接</span><br><span class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>&nbsp;</p>
+<p><strong>动态sql之foreach标签</strong></p>
+<p>循环执行sql的拼接操作，例如：SELECT * FROM student  WHERE id IN (1,2,5)。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;findByIds&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;list&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;student&quot;</span>&gt;</span></span><br><span class="line">    select * from student</span><br><span class="line">    <span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">&quot;array&quot;</span> <span class="attr">open</span>=<span class="string">&quot;id in(&quot;</span> <span class="attr">close</span>=<span class="string">&quot;)&quot;</span> <span class="attr">item</span>=<span class="string">&quot;id&quot;</span> <span class="attr">separator</span>=<span class="string">&quot;,&quot;</span>&gt;</span></span><br><span class="line">            #&#123;id&#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">where</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>测试代码片段如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> … … …</span><br><span class="line"> <span class="comment">//获得MyBatis框架生成的UserMapper接口的实现类</span></span><br><span class="line">StudentMapper mapper = sqlSession.getMapper(StudentMapper.class);</span><br><span class="line"><span class="keyword">int</span>[] ids = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">2</span>,<span class="number">5</span>&#125;;</span><br><span class="line">List&lt;Student&gt; sList = mapper.findByIds(ids);</span><br><span class="line">System.out.println(sList);</span><br><span class="line">… … …</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>总结语法</p>
+<ul>
+<li>collection : 参数容器类型</li>
+<li>open：开始的sql语句</li>
+<li>close：结束的sql语句</li>
+<li>item：参数变量名</li>
+<li>separator：分隔符</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">foreach</span>&gt;</span>：循环遍历标签。适用于多个参数或者的关系。</span><br><span class="line">    <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">“”open</span>=<span class="string">“”close</span>=<span class="string">“”item</span>=<span class="string">“”separator</span>=<span class="string">“”</span>&gt;</span></span><br><span class="line">		获取参数</span><br><span class="line"><span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>&nbsp;</p>
+<p><strong>sql片段抽取</strong></p>
+<p>sql中可将重复的 sql 提取出来，使用时用 include 引用即可，最终达到 sql 重用的目的</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--抽取sql片段简化编写--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">&quot;selectStudent&quot;</span> <span class="attr">select</span> * <span class="attr">from</span> <span class="attr">student</span>&lt;/<span class="attr">sql</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;findById&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;int&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;student&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">&quot;selectStudent&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">include</span>&gt;</span> where id=#&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;findByIds&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;list&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;student&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">&quot;selectStudent&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">&quot;array&quot;</span> <span class="attr">open</span>=<span class="string">&quot;id in(&quot;</span> <span class="attr">close</span>=<span class="string">&quot;)&quot;</span> <span class="attr">item</span>=<span class="string">&quot;id&quot;</span> <span class="attr">separator</span>=<span class="string">&quot;,&quot;</span>&gt;</span></span><br><span class="line">            #&#123;id&#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">where</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>总结语法</p>
+<p>我们可以将一些重复性的 SQL 语句进行抽取，以达到复用的效果。 </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-  <span class="tag">&lt;<span class="name">sql</span>&gt;</span>：抽取 SQL 语句标签。 </span><br><span class="line">-  <span class="tag">&lt;<span class="name">include</span>&gt;</span>：引入 SQL 片段标签。 </span><br><span class="line">   <span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">“片段唯一标识”</span>&gt;</span>抽取的 SQL 语句<span class="tag">&lt;/<span class="name">sql</span>&gt;</span> <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">“片段唯一标识”/</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>总结</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span>&gt;</span>：查询</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">insert</span>&gt;</span>：插入</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">update</span>&gt;</span>：修改</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">delete</span>&gt;</span>：删除</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">where</span>&gt;</span>：where条件</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">if</span>&gt;</span>：if判断</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">foreach</span>&gt;</span>：循环</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">sql</span>&gt;</span>：sql片段抽取</span><br></pre></td></tr></table></figure>
+
+
+
+<p>&nbsp;</p>
+<h2 id="分页插件"><a href="#分页插件" class="headerlink" title="分页插件"></a>分页插件</h2><p><strong>分页插件介绍</strong></p>
+<ul>
+<li>分页可以将很多条结果进行分页显示。</li>
+<li>如果当前在第一页，则没有上一页。如果当前在最后一页，则没有下一页。 </li>
+<li>需要明确当前是第几页，这一页中显示多少条结果。</li>
+<li>在企业级开发中，分页也是一种常见的技术。而目前使用的 MyBatis 是不带分页功能的，如果想实现分页的 功能，需要我们手动编写 LIMIT 语句。但是不同的数据库实现分页的 SQL 语句也是不同的，所以手写分页 成本较高。这个时候就可以借助分页插件来帮助我们实现分页功能。 </li>
+<li>PageHelper：第三方分页助手。将复杂的分页操作进行封装，从而让分页功能变得非常简单。    </li>
+</ul>
+<p><strong>分页插件的使用</strong></p>
+<ul>
+<li>MyBatis可以使用第三方的插件来对功能进行扩展，分页助手PageHelper是将分页的复杂操作进行封装，使用简单的方式即可获得分页的相关数据</li>
+</ul>
+<p>开发步骤</p>
+<ol>
+<li>导入jar包：pagehelper-5.1.10.jar、jsqlparser-3.1.jar </li>
+<li>在mybatis核心配置文件中配置PageHelper插件</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 注意：分页助手的插件  配置在通用mapper之前 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plugin</span> <span class="attr">interceptor</span>=<span class="string">&quot;com.github.pagehelper.PageHelper&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定方言 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dialect&quot;</span> <span class="attr">value</span>=<span class="string">&quot;mysql&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>测试分页数据获取</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPageHelper</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//设置分页参数</span></span><br><span class="line">    PageHelper.startPage(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    List&lt;User&gt; select = userMapper2.select(<span class="keyword">null</span>);</span><br><span class="line">    <span class="keyword">for</span>(User user : select)&#123;</span><br><span class="line">        System.out.println(user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>分页插件的参数获取</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//其他分页的数据</span></span><br><span class="line">PageInfo&lt;User&gt; pageInfo = <span class="keyword">new</span> PageInfo&lt;User&gt;(select);</span><br><span class="line">System.out.println(<span class="string">&quot;总条数：&quot;</span>+pageInfo.getTotal());</span><br><span class="line">System.out.println(<span class="string">&quot;总页数：&quot;</span>+pageInfo.getPages());</span><br><span class="line">System.out.println(<span class="string">&quot;当前页：&quot;</span>+pageInfo.getPageNum());</span><br><span class="line">System.out.println(<span class="string">&quot;每页显示长度：&quot;</span>+pageInfo.getPageSize());</span><br><span class="line">System.out.println(<span class="string">&quot;是否第一页：&quot;</span>+pageInfo.isIsFirstPage());</span><br><span class="line">System.out.println(<span class="string">&quot;是否最后一页：&quot;</span>+pageInfo.isIsLastPage());</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章推荐</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/23/MyBatis-基于XML配置的多表查询/" rel="bookmark">MyBatis-基于XML配置的多表查询</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/22/MyBatis-基于XML配置开发/" rel="bookmark">MyBatis-基于XML配置开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/09/MyBatis-构建SQL语句/" rel="bookmark">MyBatis-构建SQL语句</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/09/MyBatis-注解开发/" rel="bookmark">MyBatis-注解开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/08/MyBatis-多表操作/" rel="bookmark">MyBatis-多表操作</a></div>
+    </li>
+  </ul>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Small-J
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.small-j.cn/2021/07/08/MyBatis-%E5%8A%A8%E6%80%81SQL-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/" title="MyBatis-动态SQL&amp;分页插件">https://www.small-j.cn/2021/07/08/MyBatis-动态SQL-分页插件/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+              <a href="/tags/MyBatis/" rel="tag"><i class="fa fa-tag"></i> MyBatis</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/04/MyBatis-%E4%BB%8B%E7%BB%8D-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE-%E6%8E%A5%E5%8F%A3%E4%BB%A3%E7%90%86/" rel="prev" title="MyBatis-介绍&核心配置&接口代理">
+      <i class="fa fa-chevron-left"></i> MyBatis-介绍&核心配置&接口代理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/08/MyBatis-%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/" rel="next" title="MyBatis-多表操作">
+      MyBatis-多表操作 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81sql%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.</span> <span class="nav-text">动态sql语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">分页插件</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Small-J"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Small-J</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zdj-j" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zdj-j" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1437912800@qq.com" title="E-Mail → mailto:1437912800@qq.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="skype:yourname?call|chat" title="Skype → skype:yourname?call|chat" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-skype fa-fw"></i>Skype</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://0daysc.com/" title="http:&#x2F;&#x2F;0daysc.com&#x2F;" rel="noopener external nofollow noreferrer" target="_blank">0xfffff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.jack-su.com/" title="https:&#x2F;&#x2F;www.jack-su.com&#x2F;" rel="noopener external nofollow noreferrer" target="_blank">jack-su</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://yaozongqing.com/" title="https:&#x2F;&#x2F;yaozongqing.com&#x2F;" rel="noopener external nofollow noreferrer" target="_blank">YZQ</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+    
+    <link rel="stylesheet" href="/dist/APlayer.min.css">  
+    <div id="aplayer"></div>
+    <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+    <script type="text/javascript" src="./dist/music.js"></script>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Small-J</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">206k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:07</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

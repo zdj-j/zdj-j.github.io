@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Small-J的个人博客</title>
+  <icon>https://www.small-j.cn/icon.png</icon>
+  <subtitle>遗憾都是会有的吧</subtitle>
+  <link href="https://www.small-j.cn/atom.xml" rel="self"/>
+  
+  <link href="https://www.small-j.cn/"/>
+  <updated>2021-11-17T12:47:37.685Z</updated>
+  <id>https://www.small-j.cn/</id>
+  
+  <author>
+    <name>Small-J</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpringBoot整合各种技术</title>
+    <link href="https://www.small-j.cn/2021/11/18/SpringBoot%E6%95%B4%E5%90%88%E5%90%84%E7%A7%8D%E6%8A%80%E6%9C%AF/"/>
+    <id>https://www.small-j.cn/2021/11/18/SpringBoot%E6%95%B4%E5%90%88%E5%90%84%E7%A7%8D%E6%8A%80%E6%9C%AF/</id>
+    <published>2021-11-17T20:35:36.000Z</published>
+    <updated>2021-11-17T12:47:37.685Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;SpringBoot整合技术&quot;&gt;&lt;a href=&quot;#SpringBoot整合技术&quot; class=&quot;headerlink&quot; title=&quot;SpringBoot整合技术&quot;&gt;&lt;/a&gt;SpringBoot整合技术&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;SpringBoot整合各种技术，形成单一架构&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="SpringBoot" scheme="https://www.small-j.cn/categories/Java/SpringBoot/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="SpringBoot" scheme="https://www.small-j.cn/tags/SpringBoot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue</title>
+    <link href="https://www.small-j.cn/2021/10/07/Vue/"/>
+    <id>https://www.small-j.cn/2021/10/07/Vue/</id>
+    <published>2021-10-06T20:42:16.000Z</published>
+    <updated>2021-10-08T04:57:48.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Vue" scheme="https://www.small-j.cn/categories/Vue/"/>
+    
+    
+    <category term="Vue" scheme="https://www.small-j.cn/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringBoot-脑图</title>
+    <link href="https://www.small-j.cn/2021/10/05/SpringBoot-%E8%84%91%E5%9B%BE/"/>
+    <id>https://www.small-j.cn/2021/10/05/SpringBoot-%E8%84%91%E5%9B%BE/</id>
+    <published>2021-10-05T11:08:23.000Z</published>
+    <updated>2021-10-05T03:09:42.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;iframe id=&quot;embed_dom&quot; name=&quot;embed_dom&quot; frameborder=&quot;0&quot; style=&quot;display:block;width:900px; height:600px;&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="SpringBoot" scheme="https://www.small-j.cn/categories/Java/SpringBoot/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="SpringBoot" scheme="https://www.small-j.cn/tags/SpringBoot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RabbitMQ-安装</title>
+    <link href="https://www.small-j.cn/2021/10/05/RabbitMQ-%E5%AE%89%E8%A3%85/"/>
+    <id>https://www.small-j.cn/2021/10/05/RabbitMQ-%E5%AE%89%E8%A3%85/</id>
+    <published>2021-10-04T18:37:55.000Z</published>
+    <updated>2021-10-04T11:33:09.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;MQ全称为： Message Queue，消息队列是一种应用程序对应用程序的通信方法&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;介绍 ： 消息队列就是基础数据结构中的“先进先出”的一种数据机构。想一下，生活中买东西，需要排队，先排的人先买消费，就是典型的“先进先出”。&lt;/li&gt;
+&lt;li&gt;消息队列：指的是程序之间通过在消息中发送数据进行通信，而不是通过直接调用彼此来通信，直接调用通常是用于诸如远程过程调用的技术。&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="RabbitMQ" scheme="https://www.small-j.cn/tags/RabbitMQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyBatisPlus-脑图</title>
+    <link href="https://www.small-j.cn/2021/10/04/MyBatisPlus-%E8%84%91%E5%9B%BE/"/>
+    <id>https://www.small-j.cn/2021/10/04/MyBatisPlus-%E8%84%91%E5%9B%BE/</id>
+    <published>2021-10-03T20:09:21.000Z</published>
+    <updated>2021-10-03T12:11:10.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;iframe id=&quot;embed_dom&quot; name=&quot;embed_dom&quot; frameborder=&quot;0&quot; style=&quot;display:block;width:900px; height:600px;&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="MyBatis-Plus" scheme="https://www.small-j.cn/categories/Java/MyBatis-Plus/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="MyBatis-Plus" scheme="https://www.small-j.cn/tags/MyBatis-Plus/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>美年国宾项目思路分析</title>
+    <link href="https://www.small-j.cn/2021/09/21/%E7%BE%8E%E5%B9%B4%E5%9B%BD%E5%AE%BE%E9%A1%B9%E7%9B%AE%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/"/>
+    <id>https://www.small-j.cn/2021/09/21/%E7%BE%8E%E5%B9%B4%E5%9B%BD%E5%AE%BE%E9%A1%B9%E7%9B%AE%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/</id>
+    <published>2021-09-20T21:54:25.000Z</published>
+    <updated>2021-09-21T09:24:27.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;每年国宾：采用的是Spring、SpringMVC、Mybatis、Spring Security完成&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="Vue" scheme="https://www.small-j.cn/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mac M1 ——&gt; Tomcat9</title>
+    <link href="https://www.small-j.cn/2021/09/20/Mac-M1-%E2%80%94%E2%80%94-Tomcat9/"/>
+    <id>https://www.small-j.cn/2021/09/20/Mac-M1-%E2%80%94%E2%80%94-Tomcat9/</id>
+    <published>2021-09-19T17:15:58.000Z</published>
+    <updated>2021-09-19T11:50:15.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Tomcat&lt;/em&gt;是Apache 软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun 和其他一些公司及个人共同开发而成（默认端口为8080）&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="tomcat" scheme="https://www.small-j.cn/categories/tomcat/"/>
+    
+    
+    <category term="mac" scheme="https://www.small-j.cn/tags/mac/"/>
+    
+    <category term="tomcat" scheme="https://www.small-j.cn/tags/tomcat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SSM——旅游项目html</title>
+    <link href="https://www.small-j.cn/2021/09/16/SSM%E2%80%94%E2%80%94%E6%97%85%E6%B8%B8%E9%A1%B9%E7%9B%AEhtml/"/>
+    <id>https://www.small-j.cn/2021/09/16/SSM%E2%80%94%E2%80%94%E6%97%85%E6%B8%B8%E9%A1%B9%E7%9B%AEhtml/</id>
+    <published>2021-09-15T20:40:51.000Z</published>
+    <updated>2021-09-15T12:54:44.000Z</updated>
+    
+    
+    <summary type="html">Here&#39;s something encrypted, password is required to continue reading.</summary>
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    
+    <category term="html" scheme="https://www.small-j.cn/tags/html/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CentOS7 安装JDK1.8</title>
+    <link href="https://www.small-j.cn/2021/09/14/CentOS7-%E5%AE%89%E8%A3%85JDK1.8/"/>
+    <id>https://www.small-j.cn/2021/09/14/CentOS7-%E5%AE%89%E8%A3%85JDK1.8/</id>
+    <published>2021-09-14T15:43:28.000Z</published>
+    <updated>2021-10-05T03:07:51.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;Linux上一般会安装Open JDK,关于OpenJDK和JDK的区别：&lt;a href=&quot;http://www.cnblogs.com/sxdcgaq8080/p/7487369.html&quot;&gt;http://www.cnblogs.com/sxdcgaq8080/p/7487369.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Zookeeper安装</title>
+    <link href="https://www.small-j.cn/2021/08/29/Zookeeper%E5%AE%89%E8%A3%85/"/>
+    <id>https://www.small-j.cn/2021/08/29/Zookeeper%E5%AE%89%E8%A3%85/</id>
+    <published>2021-08-29T11:05:22.000Z</published>
+    <updated>2021-08-29T03:25:43.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;Zookeeper是一个分布式的，开放源代码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Zookeeper" scheme="https://www.small-j.cn/categories/Zookeeper/"/>
+    
+    
+    <category term="Zookeeper" scheme="https://www.small-j.cn/tags/Zookeeper/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringMVC-脑图</title>
+    <link href="https://www.small-j.cn/2021/08/20/SpringMVC-%E8%84%91%E5%9B%BE/"/>
+    <id>https://www.small-j.cn/2021/08/20/SpringMVC-%E8%84%91%E5%9B%BE/</id>
+    <published>2021-08-19T16:52:44.000Z</published>
+    <updated>2021-10-03T12:09:58.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;iframe id=&quot;embed_dom&quot; name=&quot;embed_dom&quot; frameborder=&quot;0&quot; style=&quot;display:block;width:900px; height:600px;&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="Spring" scheme="https://www.small-j.cn/categories/Java/Spring/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="Spring" scheme="https://www.small-j.cn/tags/Spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring-脑图</title>
+    <link href="https://www.small-j.cn/2021/08/05/Spring-%E8%84%91%E5%9B%BE/"/>
+    <id>https://www.small-j.cn/2021/08/05/Spring-%E8%84%91%E5%9B%BE/</id>
+    <published>2021-08-04T20:35:30.000Z</published>
+    <updated>2021-08-24T10:36:50.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;iframe id=&quot;embed_dom&quot; name=&quot;embed_dom&quot; frameborder=&quot;0&quot; style=&quot;display:block;width:900px; height:600px;&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="Spring" scheme="https://www.small-j.cn/categories/Java/Spring/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="Spring" scheme="https://www.small-j.cn/tags/Spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyBatis-基于XML配置的多表查询</title>
+    <link href="https://www.small-j.cn/2021/07/23/MyBatis-%E5%9F%BA%E4%BA%8EXML%E9%85%8D%E7%BD%AE%E7%9A%84%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/"/>
+    <id>https://www.small-j.cn/2021/07/23/MyBatis-%E5%9F%BA%E4%BA%8EXML%E9%85%8D%E7%BD%AE%E7%9A%84%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/</id>
+    <published>2021-07-22T17:04:23.000Z</published>
+    <updated>2021-07-22T09:32:41.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;多表操作是避免不了的，基于xml配置的多表操作&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;单表关键字：&lt;code&gt;association&lt;/code&gt; 、&lt;code&gt;javaType&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;多表关键词：&lt;code&gt;collection&lt;/code&gt;、&lt;code&gt;ofType&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/categories/Java/MyBatis/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/tags/MyBatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyBatis-基于XML配置开发</title>
+    <link href="https://www.small-j.cn/2021/07/22/MyBatis-%E5%9F%BA%E4%BA%8EXML%E9%85%8D%E7%BD%AE%E5%BC%80%E5%8F%91/"/>
+    <id>https://www.small-j.cn/2021/07/22/MyBatis-%E5%9F%BA%E4%BA%8EXML%E9%85%8D%E7%BD%AE%E5%BC%80%E5%8F%91/</id>
+    <published>2021-07-21T23:54:43.000Z</published>
+    <updated>2021-07-21T16:45:32.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;基于xml的方式进行开发&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/categories/Java/MyBatis/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/tags/MyBatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CentOS安装Redis&amp;相关配置</title>
+    <link href="https://www.small-j.cn/2021/07/15/CentOS%E5%AE%89%E8%A3%85Redis&amp;%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/"/>
+    <id>https://www.small-j.cn/2021/07/15/CentOS%E5%AE%89%E8%A3%85Redis&amp;%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/</id>
+    <published>2021-07-14T16:06:00.000Z</published>
+    <updated>2021-07-16T09:13:14.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt; Redis (REmote DIctionary Server) 是用 C 语言开发的一个开源的高性能键值对（key-value）数据库。&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Redis" scheme="https://www.small-j.cn/categories/Redis/"/>
+    
+    
+    <category term="Redis" scheme="https://www.small-j.cn/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyBatis-构建SQL语句</title>
+    <link href="https://www.small-j.cn/2021/07/09/MyBatis-%E6%9E%84%E5%BB%BASQL%E8%AF%AD%E5%8F%A5/"/>
+    <id>https://www.small-j.cn/2021/07/09/MyBatis-%E6%9E%84%E5%BB%BASQL%E8%AF%AD%E5%8F%A5/</id>
+    <published>2021-07-08T19:26:48.000Z</published>
+    <updated>2021-07-08T11:46:58.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;我们之前通过注解开发时，相关SQL语句都是自己直接拼写的，一些关键字写起来比较麻烦、而且容易出错&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/categories/Java/MyBatis/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/tags/MyBatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyBatis-注解开发</title>
+    <link href="https://www.small-j.cn/2021/07/09/MyBatis-%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/"/>
+    <id>https://www.small-j.cn/2021/07/09/MyBatis-%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/</id>
+    <published>2021-07-08T16:08:45.000Z</published>
+    <updated>2021-07-08T11:47:47.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;使用注解开发可以提高效率，同时也可以减少编写Mapper配置文件&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/categories/Java/MyBatis/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/tags/MyBatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyBatis-多表操作</title>
+    <link href="https://www.small-j.cn/2021/07/08/MyBatis-%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/"/>
+    <id>https://www.small-j.cn/2021/07/08/MyBatis-%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/</id>
+    <published>2021-07-08T13:22:13.000Z</published>
+    <updated>2021-07-08T11:48:05.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;在实际开发过程中，随着业务难度的加深，肯定是需要多表操作&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/categories/Java/MyBatis/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/tags/MyBatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyBatis-动态SQL&amp;分页插件</title>
+    <link href="https://www.small-j.cn/2021/07/08/MyBatis-%E5%8A%A8%E6%80%81SQL-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/"/>
+    <id>https://www.small-j.cn/2021/07/08/MyBatis-%E5%8A%A8%E6%80%81SQL-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/</id>
+    <published>2021-07-08T10:53:08.000Z</published>
+    <updated>2021-07-08T11:47:29.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;当我们的业务逻辑复杂时，我们的SQL是动态变化的，此时我们就需要使用到动态的SQL&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/categories/Java/MyBatis/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/tags/MyBatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyBatis-介绍&amp;核心配置&amp;接口代理</title>
+    <link href="https://www.small-j.cn/2021/07/04/MyBatis-%E4%BB%8B%E7%BB%8D-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE-%E6%8E%A5%E5%8F%A3%E4%BB%A3%E7%90%86/"/>
+    <id>https://www.small-j.cn/2021/07/04/MyBatis-%E4%BB%8B%E7%BB%8D-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE-%E6%8E%A5%E5%8F%A3%E4%BB%A3%E7%90%86/</id>
+    <published>2021-07-03T21:13:55.000Z</published>
+    <updated>2021-07-21T11:27:22.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;mybatis 是一个优秀的基于java的持久层框架，它内部封装了jdbc，使开发者只需要关注sql语句本身，而不需要花费精力去处理加载驱动、创建连接、创建statement等繁杂的过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;本文主要记录三大方向：介绍MyBatis、核心的配置文件、以及分层思想实现MyBatis对数据库的CURD操作&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/categories/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/categories/Java/MyBatis/"/>
+    
+    
+    <category term="Java" scheme="https://www.small-j.cn/tags/Java/"/>
+    
+    <category term="MyBatis" scheme="https://www.small-j.cn/tags/MyBatis/"/>
+    
+  </entry>
+  
+</feed>
